@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hard Champs — Championships</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #131313;
+    --surface2: #1a1a1a;
+    --border: #242424;
+    --accent: #e8c84a;
+    --accent-dim: rgba(232,200,74,0.12);
+    --red: #d04040;
+    --blue: #4090d0;
+    --green: #50a060;
+    --text: #e0ddd6;
+    --muted: #666;
+    --muted2: #444;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 3rem 1.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .masthead {
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+  }
+
+  .masthead-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.2rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .masthead-sub {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    padding-bottom: 0.3rem;
+  }
+
+  .header-meta {
+    text-align: right;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  main {
+    display: flex;
+    min-height: calc(100vh - 90px);
+  }
+
+  /* ─── SIDEBAR — championship list ─── */
+  .sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    padding: 2rem 0;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 90px);
+    overflow-y: auto;
+  }
+
+  .sidebar-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    padding: 0 2rem 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.5rem;
+  }
+
+  .champ-btn {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    border-left: 3px solid transparent;
+    padding: 1rem 2rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    color: var(--text);
+    font-family: 'Crimson Pro', serif;
+  }
+
+  .champ-btn:hover {
+    background: var(--surface2);
+  }
+
+  .champ-btn.active {
+    background: var(--accent-dim);
+    border-left-color: var(--accent);
+  }
+
+  .champ-btn .champ-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.08em;
+    display: block;
+  }
+
+  .champ-btn .champ-meta {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-top: 0.15rem;
+  }
+
+  .champ-btn .champ-status {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    margin-top: 0.4rem;
+  }
+
+  .champ-status.active-season { background: rgba(80,160,96,0.2); color: var(--green); }
+  .champ-status.complete { background: rgba(136,136,136,0.15); color: var(--muted); }
+
+  /* ─── CONTENT PANEL ─── */
+  .content {
+    flex: 1;
+    padding: 3rem;
+    overflow-y: auto;
+  }
+
+  /* ─── CHAMPIONSHIP PANEL ─── */
+  .champ-panel { display: none; }
+  .champ-panel.visible { display: block; }
+
+  .panel-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .panel-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  .panel-title span {
+    color: var(--accent);
+  }
+
+  .panel-desc {
+    margin-top: 0.6rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ─── STANDINGS TABLE ─── */
+  .section-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1.2rem;
+    margin-top: 2.5rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  thead th {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.14em;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-align: left;
+    padding: 0.5rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--muted2);
+    transition: background 0.12s;
+  }
+
+  tbody tr:hover { background: var(--surface2); }
+  tbody tr:last-child { border-bottom: none; }
+
+  td {
+    padding: 0.65rem 0.8rem;
+    vertical-align: middle;
+  }
+
+  .pos {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: var(--muted);
+    width: 2rem;
+  }
+
+  .pos.gold { color: #d4a843; }
+  .pos.silver { color: #9eaab5; }
+  .pos.bronze { color: #a07050; }
+
+  .driver-name {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .pts-cell {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.06em;
+    text-align: right;
+  }
+
+  .pts-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ─── RACE CARDS GRID ─── */
+  .races-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .race-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.4rem 1.6rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    position: relative;
+    text-decoration: none;
+    display: block;
+    color: var(--text);
+  }
+
+  .race-card:hover {
+    border-color: var(--accent);
+    background: var(--surface2);
+  }
+
+  .race-card.no-report {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .race-card-round {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .race-card-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.07em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .race-card-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .race-card-winner {
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.82rem;
+  }
+
+  .race-card-winner .winner-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.1rem;
+  }
+
+  .race-card-winner .winner-name {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .badge-report {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--green);
+    background: rgba(80,160,96,0.15);
+    padding: 0.15rem 0.45rem;
+    border-radius: 2px;
+  }
+
+  .badge-upcoming {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    background: rgba(100,100,100,0.15);
+    padding: 0.15rem 0.45rem;
+    border-radius: 2px;
+  }
+
+  /* ─── WELCOME PANEL ─── */
+  #panel-welcome {
+    display: block;
+    max-width: 580px;
+  }
+
+  .welcome-eyebrow {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .welcome-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  .welcome-title em {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .welcome-body {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.8;
+    border-left: 3px solid var(--border);
+    padding-left: 1.2rem;
+  }
+
+  .welcome-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 3rem;
+    margin-top: 2rem;
+  }
+
+  .stat-item .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-item .stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.2rem 3rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    text-align: center;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="masthead">
+    <span class="masthead-logo">Hard Champs</span>
+    <span class="masthead-sub">Formula D Swiss Series</span>
+  </div>
+  <div class="header-meta">
+    Board Game Arena<br>
+    Swiss Format · Three-Car Teams
+  </div>
+</header>
+
+<main>
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-heading">Championships</div>
+
+    <button class="champ-btn" onclick="showChamp('2026-spring')">
+      <span class="champ-name">2026 Spring Cup</span>
+      <span class="champ-meta">Season 1 · 2026</span>
+      <span class="champ-status active-season">Active</span>
+    </button>
+
+    <!-- Add future championships below as needed -->
+    <!-- 
+    <button class="champ-btn" onclick="showChamp('2025-fall')">
+      <span class="champ-name">2025 Autumn Series</span>
+      <span class="champ-meta">Season 0 · 2025</span>
+      <span class="champ-status complete">Complete</span>
+    </button>
+    -->
+
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- WELCOME / DEFAULT -->
+    <div id="panel-welcome" class="champ-panel visible">
+      <p class="welcome-eyebrow">Formula D · Swiss Format</p>
+      <h1 class="welcome-title">Hard<br><em>Champs</em></h1>
+      <p class="welcome-body">
+        Three-car teams. Nitro fuel injection. Technical pit stops. Weather variability.
+        Custom-built machinery fighting through Swiss-format rounds on Board Game Arena.
+        Select a championship from the sidebar to view standings and race reports.
+      </p>
+      <hr class="welcome-rule">
+      <div class="stat-row">
+        <div class="stat-item">
+          <div class="stat-val">1</div>
+          <div class="stat-label">Championships</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">2</div>
+          <div class="stat-label">Rounds Completed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">3</div>
+          <div class="stat-label">Teams</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- 2026 SPRING CUP                                -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div id="panel-2026-spring" class="champ-panel">
+
+      <div class="panel-header">
+        <h2 class="panel-title"><span>2026</span> Spring Cup</h2>
+        <p class="panel-desc">Season 1 · Swiss Format · Board Game Arena · Active Championship</p>
+      </div>
+
+      <!-- STANDINGS -->
+      <div class="section-label">Championship Standings</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Pos</th>
+            <th>Team</th>
+            <th>Rounds</th>
+            <th style="text-align:right">Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pos gold">1</td>
+            <td><span class="driver-name">Kinetik Motorsport</span></td>
+            <td><span style="color:var(--muted);font-size:0.85rem">2 rounds</span></td>
+            <td class="pts-cell">2,539 <span class="pts-label">pts</span></td>
+          </tr>
+          <tr>
+            <td class="pos silver">2</td>
+            <td><span class="driver-name">Formula None</span></td>
+            <td><span style="color:var(--muted);font-size:0.85rem">2 rounds</span></td>
+            <td class="pts-cell">2,042 <span class="pts-label">pts</span></td>
+          </tr>
+          <tr>
+            <td class="pos bronze">3</td>
+            <td><span class="driver-name">Vanguard Racing</span></td>
+            <td><span style="color:var(--muted);font-size:0.85rem">2 rounds</span></td>
+            <td class="pts-cell">1,926 <span class="pts-label">pts</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- RACE ROUNDS -->
+      <div class="section-label">Race Results</div>
+      <div class="races-grid">
+
+        <!-- ROUND 1 — March Cup -->
+        <a class="race-card" href="hard_champs_march_cup_race_report.html">
+          <span class="badge-report">Report ↗</span>
+          <div class="race-card-round">Round 1</div>
+          <div class="race-card-name">March Cup</div>
+          <div class="race-card-meta">March 2026</div>
+          <div class="race-card-winner">
+            <span class="winner-label">Team Winner</span>
+            <span class="winner-name">Kinetik Motorsport</span>
+            <span style="color:var(--muted);font-size:0.82rem"> — 1,330 pts</span>
+          </div>
+        </a>
+
+        <!-- ROUND 2 — April Cup -->
+        <a class="race-card" href="hard_champs_april_cup_race_report.html">
+          <span class="badge-report">Report ↗</span>
+          <div class="race-card-round">Round 2</div>
+          <div class="race-card-name">April Cup</div>
+          <div class="race-card-meta">March 2026</div>
+          <div class="race-card-winner">
+            <span class="winner-label">Team Winner</span>
+            <span class="winner-name">Kinetik Motorsport</span>
+            <span style="color:var(--muted);font-size:0.82rem"> — 1,209 pts</span>
+          </div>
+        </a>
+
+        <!-- ROUND 3 — Upcoming -->
+        <div class="race-card no-report">
+          <span class="badge-upcoming">Upcoming</span>
+          <div class="race-card-round">Round 3</div>
+          <div class="race-card-name">Round 3</div>
+          <div class="race-card-meta">TBD</div>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- end 2026-spring panel -->
+
+  </div>
+  <!-- end content -->
+
+</main>
+
+<footer>
+  Hard Champs · Formula D Swiss Series · Board Game Arena
+</footer>
+
+<script>
+  function showChamp(id) {
+    // hide all panels (except welcome which we also hide)
+    document.querySelectorAll('.champ-panel').forEach(p => {
+      p.classList.remove('visible');
+    });
+    // deactivate all buttons
+    document.querySelectorAll('.champ-btn').forEach(b => {
+      b.classList.remove('active');
+    });
+    // show selected
+    const panel = document.getElementById('panel-' + id);
+    if (panel) panel.classList.add('visible');
+    // activate button
+    event.currentTarget.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
