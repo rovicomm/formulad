@@ -364,9 +364,13 @@
   }
 
   /* ─── WELCOME PANEL ─── */
-  #panel-welcome {
-    display: block;
+  .welcome-panel {
+    display: none;
     max-width: 580px;
+  }
+
+  .welcome-panel.visible {
+    display: block;
   }
 
   .welcome-eyebrow {
@@ -439,53 +443,235 @@
     text-align: center;
   }
 
+  /* ─── SERIES SELECTOR ─── */
+  .series-select-wrap {
+    padding: 1rem 2rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.5rem;
+  }
+
+  .series-select-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .series-select {
+    width: 100%;
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.8rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    padding-right: 2rem;
+  }
+
+  .series-select:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .series-champs { display: none; }
+  .series-champs.visible { display: block; }
+
+  .sidebar-empty {
+    padding: 1.5rem 2rem;
+    font-size: 0.8rem;
+    color: var(--muted2);
+    letter-spacing: 0.06em;
+  }
+
+  /* ─── MOBILE MENU BUTTON ─── */
+  .menu-btn {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.4rem 0.9rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.16em;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .menu-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── SIDEBAR OVERLAY ─── */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 9;
+  }
+
+  .sidebar-overlay.open { display: block; }
+
+  /* ─── SIDEBAR CLOSE (mobile only) ─── */
+  .sidebar-close {
+    display: none;
+  }
+
   /* ─── SCROLLBAR ─── */
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 680px) {
+    header {
+      padding: 1rem 1.2rem;
+      align-items: center;
+    }
+
+    .masthead-logo { font-size: 2.2rem; }
+    .masthead-sub { display: none; }
+    .header-meta { display: none; }
+    .menu-btn { display: block; }
+
+    main {
+      min-height: calc(100vh - 58px);
+    }
+
+    /* Sidebar becomes a fixed drawer */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 82vw;
+      max-width: 300px;
+      height: 100vh;
+      z-index: 10;
+      transition: left 0.25s ease;
+      padding-top: 0;
+      border-right: 1px solid var(--border);
+    }
+
+    .sidebar.open { left: 0; }
+
+    .sidebar-close {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-close-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .sidebar-close-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0.2rem 0.4rem;
+    }
+
+    .sidebar-close-btn:hover { color: var(--text); }
+
+    .content {
+      padding: 1.5rem 1.2rem;
+    }
+
+    .panel-title { font-size: 2.2rem; }
+
+    .welcome-panel { max-width: 100%; }
+    .welcome-title { font-size: 3rem; }
+
+    .stat-row { gap: 1.8rem; }
+
+    .races-grid {
+      grid-template-columns: 1fr;
+    }
+
+    footer { padding: 1rem 1.2rem; }
+  }
+
+  @media (max-width: 380px) {
+    .masthead-logo { font-size: 1.8rem; }
+    .welcome-title { font-size: 2.4rem; }
+    .stat-row { gap: 1.2rem; }
+  }
 </style>
 </head>
 <body>
 
 <header>
   <div class="masthead">
-    <span class="masthead-logo">Hard Champs</span>
-    <span class="masthead-sub">Formula D Swiss Series</span>
+    <span class="masthead-logo">Formula D</span>
+    <span class="masthead-sub">Racing Series</span>
   </div>
   <div class="header-meta">
     Board Game Arena<br>
-    Swiss Format · Three-Car Teams
+    Swiss Format · Tournament History
   </div>
+  <button class="menu-btn" onclick="openSidebar()">☰ Menu</button>
 </header>
+
+<div class="sidebar-overlay" onclick="closeSidebar()"></div>
 
 <main>
 
   <!-- SIDEBAR -->
-  <nav class="sidebar">
+  <nav class="sidebar" id="sidebar">
+
+    <div class="sidebar-close">
+      <span class="sidebar-close-label">Navigation</span>
+      <button class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Close menu">✕</button>
+    </div>
+
+    <div class="series-select-wrap">
+      <label class="series-select-label" for="series-select">Series</label>
+      <select id="series-select" class="series-select" onchange="showSeries(this.value)">
+        <option value="hard-champs">Hard Champs</option>
+        <option value="unnamed">Unnamed</option>
+      </select>
+    </div>
+
     <div class="sidebar-heading">Championships</div>
 
-    <button class="champ-btn" onclick="showChamp('2026-spring')">
-      <span class="champ-name">2026 Spring Cup</span>
-      <span class="champ-meta">Season 1 · 2026</span>
-      <span class="champ-status active-season">Active</span>
-    </button>
+    <!-- Hard Champs series -->
+    <div id="series-hard-champs" class="series-champs visible">
+      <button class="champ-btn" onclick="showChamp('2026-spring')">
+        <span class="champ-name">2026 Spring Cup</span>
+        <span class="champ-meta">Season 2 · 2026</span>
+        <span class="champ-status active-season">Active</span>
+      </button>
+    </div>
 
-    <!-- Add future championships below as needed -->
-    <!-- 
-    <button class="champ-btn" onclick="showChamp('2025-fall')">
-      <span class="champ-name">2025 Autumn Series</span>
-      <span class="champ-meta">Season 0 · 2025</span>
-      <span class="champ-status complete">Complete</span>
-    </button>
-    -->
+    <!-- Unnamed series -->
+    <div id="series-unnamed" class="series-champs">
+      <p class="sidebar-empty">No championships yet.</p>
+    </div>
 
   </nav>
 
   <!-- CONTENT -->
   <div class="content">
 
-    <!-- WELCOME / DEFAULT -->
-    <div id="panel-welcome" class="champ-panel visible">
+    <!-- WELCOME — Hard Champs -->
+    <div id="welcome-hard-champs" class="welcome-panel visible">
       <p class="welcome-eyebrow">Formula D · Swiss Format</p>
       <h1 class="welcome-title">Hard<br><em>Champs</em></h1>
       <p class="welcome-body">
@@ -508,6 +694,16 @@
           <div class="stat-label">Teams</div>
         </div>
       </div>
+    </div>
+
+    <!-- WELCOME — Unnamed -->
+    <div id="welcome-unnamed" class="welcome-panel">
+      <p class="welcome-eyebrow">Formula D · Swiss Format</p>
+      <h1 class="welcome-title"><em>Unnamed</em><br>Series</h1>
+      <p class="welcome-body">
+        No championships have been added to this series yet.
+        Check back soon.
+      </p>
     </div>
 
     <!-- ═══════════════════════════════════════════════ -->
@@ -606,20 +802,33 @@
 </footer>
 
 <script>
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.querySelector('.sidebar-overlay').classList.add('open');
+  }
+
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.querySelector('.sidebar-overlay').classList.remove('open');
+  }
+
+  function showSeries(seriesId) {
+    document.querySelectorAll('.series-champs').forEach(s => s.classList.remove('visible'));
+    document.getElementById('series-' + seriesId).classList.add('visible');
+    document.querySelectorAll('.champ-panel').forEach(p => p.classList.remove('visible'));
+    document.querySelectorAll('.welcome-panel').forEach(w => w.classList.remove('visible'));
+    document.getElementById('welcome-' + seriesId).classList.add('visible');
+    document.querySelectorAll('.champ-btn').forEach(b => b.classList.remove('active'));
+  }
+
   function showChamp(id) {
-    // hide all panels (except welcome which we also hide)
-    document.querySelectorAll('.champ-panel').forEach(p => {
-      p.classList.remove('visible');
-    });
-    // deactivate all buttons
-    document.querySelectorAll('.champ-btn').forEach(b => {
-      b.classList.remove('active');
-    });
-    // show selected
+    document.querySelectorAll('.champ-panel').forEach(p => p.classList.remove('visible'));
+    document.querySelectorAll('.welcome-panel').forEach(w => w.classList.remove('visible'));
+    document.querySelectorAll('.champ-btn').forEach(b => b.classList.remove('active'));
     const panel = document.getElementById('panel-' + id);
     if (panel) panel.classList.add('visible');
-    // activate button
     event.currentTarget.classList.add('active');
+    closeSidebar();
   }
 </script>
 
