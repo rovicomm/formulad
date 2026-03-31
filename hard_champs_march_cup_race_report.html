@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hard Champs March Cup — Round 1 Race Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a0f; color: #e8e4dc; font-family: 'Crimson Pro', Georgia, serif; }
+  .stripe { background: repeating-linear-gradient(-45deg,#e8e4dc 0,#e8e4dc 7px,#0a0a0f 7px,#0a0a0f 14px); height: 5px; }
+  .bb { font-family: 'Bebas Neue', Impact, sans-serif; }
+  .eyebrow { font-family: 'Bebas Neue', sans-serif; letter-spacing: .25em; font-size: 11px; color: #e05252; margin-bottom: 6px; }
+  .main-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(38px,8vw,72px); line-height: .9; letter-spacing: .04em; color: #e8e4dc; margin: 0 0 10px; }
+  .subtitle { font-family: 'Crimson Pro', serif; font-style: italic; font-size: 18px; color: #888; }
+  .tag { border: 1px solid #2a2a35; padding: 3px 10px; font-family: 'Bebas Neue', sans-serif; letter-spacing: .15em; font-size: 11px; color: #666; display: inline-block; margin-top: 4px; margin-right: 6px; }
+  .rain-tag { background: #1a2a3a; border: 1px solid #2a4a6a; color: #6ab0dd; }
+  .sec-label { font-family: 'Bebas Neue', sans-serif; letter-spacing: .3em; font-size: 10px; color: #444; padding: 20px 28px 6px; border-top: 1px solid #1a1a22; }
+  .rtable { width: 100%; border-collapse: collapse; }
+  .rtable th { font-family: 'Bebas Neue', sans-serif; letter-spacing: .2em; font-size: 10px; color: #555; text-align: left; padding: 6px 16px; border-bottom: 1px solid #1e1e28; }
+  .rtable td { padding: 10px 16px; border-bottom: 1px solid #111118; font-size: 16px; }
+  .rtable tr:hover td { background: #111118; }
+  .card { border-left: 2px solid #2a2a35; padding: 18px 24px; margin-bottom: 2px; cursor: pointer; background: #0d0d14; transition: border-color .15s, background .15s; }
+  .card:hover { background: #111118; }
+  .card.dnf { border-left-color: #3a1a1a; }
+  .card.dnf:hover { border-left-color: #e05252; }
+  .card.nitro { border-left-color: #2a3a1a; }
+  .card.nitro:hover { border-left-color: #8abe4a; }
+  .card-head { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: .08em; display: flex; justify-content: space-between; align-items: center; }
+  .card-body { font-size: 16px; line-height: 1.7; color: #b0ab9e; margin-top: 12px; white-space: pre-line; display: none; }
+  .award { border-top: 1px solid #1e1e28; padding: 18px 24px; display: flex; gap: 16px; }
+  .award-label { font-family: 'Bebas Neue', sans-serif; font-size: 10px; letter-spacing: .25em; color: #555; min-width: 130px; padding-top: 3px; }
+  .award-driver { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: .08em; color: #e8e4dc; margin-bottom: 4px; }
+  .award-detail { font-family: 'Crimson Pro', serif; font-style: italic; font-size: 15px; color: #777; line-height: 1.5; }
+  .footer { padding: 18px 28px; border-top: 1px solid #1a1a22; font-family: 'Bebas Neue', sans-serif; letter-spacing: .2em; font-size: 10px; color: #333; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<div class="stripe"></div>
+
+<div style="padding:40px 28px 28px;">
+  <div class="eyebrow">Formula D · Board Game Arena · #818321892</div>
+  <h1 class="main-title">Hard Champs March Cup</h1>
+  <div class="subtitle">Round 1 — Post-Race Report</div>
+  <div style="margin-top:12px;">
+    <span class="tag">Random Circuit</span>
+    <span class="tag">2 Laps</span>
+    <span class="tag rain-tag">Wet Race</span>
+  </div>
+</div>
+
+<div class="sec-label">Classification</div>
+<table class="rtable">
+  <thead><tr><th>Pos</th><th>Driver</th><th>Car</th><th>Team pts</th></tr></thead>
+  <tbody id="results"></tbody>
+</table>
+
+<div class="sec-label">Race report</div>
+<div id="sections"></div>
+
+<div class="sec-label">Verdicts</div>
+<div id="awards" style="background:#0d0d14;"></div>
+
+<div class="footer">
+  <span>Hard Champs March Cup · Round 1</span>
+  <span>Swiss format · Standings TBD</span>
+</div>
+<div class="stripe"></div>
+
+<script>
+const posColor = {"1st":"#FFD700","2nd":"#C0C0C0","3rd":"#CD7F32","4th":"#888","5th":"#888","DNF":"#e05252"};
+
+const results = [
+  {pos:"1st",driver:"Bournemaus",car:"Car #2",team:"1,021 pts",dnf:false},
+  {pos:"2nd",driver:"originalbob",car:"Car #2",team:"1,330 pts",dnf:false},
+  {pos:"3rd",driver:"originalbob",car:"Car #3",team:"",dnf:false},
+  {pos:"4th",driver:"AllSkillNoPants",car:"Car #2",team:"903 pts",dnf:false},
+  {pos:"5th",driver:"AllSkillNoPants",car:"Car #3",team:"",dnf:false},
+  {pos:"DNF",driver:"AllSkillNoPants",car:"Car #1",team:"",dnf:true},
+  {pos:"DNF",driver:"Bournemaus",car:"Car #1",team:"",dnf:true},
+  {pos:"DNF",driver:"Bournemaus",car:"Car #3",team:"",dnf:true},
+  {pos:"DNF",driver:"originalbob",car:"Car #1",team:"",dnf:true},
+];
+
+const tb = document.getElementById('results');
+results.forEach(r => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td><span class="bb" style="font-size:17px;letter-spacing:.05em;color:${posColor[r.pos]||'#aaa'}">${r.pos}</span></td>
+    <td style="color:${r.dnf?'#555':'#e8e4dc'};font-size:16px">${r.driver}</td>
+    <td style="color:#666;font-size:13px">${r.car}</td>
+    <td class="bb" style="letter-spacing:.1em;color:#888;font-size:13px">${r.team||''}</td>`;
+  tb.appendChild(tr);
+});
+
+const sections = [
+  {h:"Qualifying", flag:null, body:`Bournemaus Car #2 set the pole lap — the fastest and cleanest run of the session, a full two rounds quicker than most of the field. AllSkillNoPants was consistently competitive across all three cars, though Cars #1 and #3 each lost time at the corners. originalbob had a rough hour: Car #1 in particular ran wide twice and finished at the back of the grid. Bournemaus Car #1 had an equally costly session, going deep at La Ferme and conceding significant time.\n\nRain confirmed. Lights out.`},
+  {h:"Retirement #1 — Bournemaus Car #1", flag:"dnf", body:`It ended badly and quickly. Bournemaus Car #1 arrived at a braking zone already under pressure, made contact with two AllSkillNoPants cars in quick succession, and on the second hit there was simply nothing left. The car was beached in the barriers. Out before the end of Lap 1.`},
+  {h:"Retirement #2 — originalbob Car #1", flag:"dnf", body:`originalbob Car #1 had been carrying damage since the opening sequence. Caught out by the standing water through a fast section, the car snapped sideways and collected its own teammate — Car #3. Car #3 walked away clean. Car #1 did not. Retired mid-lap.`},
+  {h:"Retirement #3 — Bournemaus Car #3", flag:"dnf", body:`Bournemaus Car #3 had been quietly threading through traffic, surviving where Car #1 had not. That changed in a crowded braking zone when originalbob Car #3 came through and the two made heavy contact. Bournemaus Car #3 was destroyed on impact. Out on the spot. originalbob Car #3 took a hit too, but kept going.`},
+  {h:"Pit windows & the nitro battle", flag:"nitro", body:`With four cars already retired and the rain refusing to ease, both championship contenders read the race correctly and came in for fresh wet tyres and repairs. Bournemaus Car #2 and originalbob Car #2 emerged from the pits neck and neck, both with full fuel loads and fresh rubber.\n\nWhat followed was a lap of sustained pressure, with both drivers reaching for the nitro boost repeatedly. Bournemaus Car #2 fired first — extending a move through a key section to hold track position over the AllSkillNoPants cars. originalbob Car #2 responded in kind, matching the move and keeping the gap honest.\n\nEarlier in the race, Bournemaus Car #3 had used nitro to surge past AllSkillNoPants Car #3 through a fast sequence — one of the cleaner overtakes of the afternoon, and the last meaningful move the car would make before its retirement.\n\nAllSkillNoPants played their hand more desperately. Cars #1, #2, and #3 all went for it within the same lap — Car #3 going particularly deep into a corner and paying for it with damaged tyres. The kind of gamble that can win a race in the dry. In these conditions, it cost them dearly.`},
+  {h:"Retirement #4 — AllSkillNoPants Car #1", flag:"dnf", body:`AllSkillNoPants Car #1 had been fighting the circuit for the entire second lap — repeated oversteer moments, contact with a teammate, tyres and brakes progressively giving way. The end came at a fast right-hander: the car went in too hot, stepped out in the wet, and flew off the road by two car lengths. Retired on the spot, car removed immediately.`},
+  {h:"Final laps", flag:null, body:`The rain never let up. Bournemaus Car #2 crossed the line first — measured, clean, never in serious danger in the closing stages. originalbob Car #2 followed in second, the pit stop call having been the decisive factor in securing a strong result. originalbob Car #3, battered but upright, came home third. AllSkillNoPants salvaged what they could: Car #2 in fourth, and Car #3 — which had spun out twice and somehow kept going — crossed the line fifth.`},
+];
+
+const open = {};
+const sc = document.getElementById('sections');
+sections.forEach((s, i) => {
+  const d = document.createElement('div');
+  d.className = 'card' + (s.flag === 'dnf' ? ' dnf' : s.flag === 'nitro' ? ' nitro' : '');
+  const hcolor = s.flag === 'dnf' ? '#e05252' : s.flag === 'nitro' ? '#8abe4a' : '#e8e4dc';
+  const icon = s.flag === 'dnf' ? '[ ! ] ' : s.flag === 'nitro' ? '[ + ] ' : '';
+  d.innerHTML = `<div class="card-head" style="color:${hcolor}"><span>${icon}${s.h}</span><span style="font-size:12px;color:#444;" id="arr${i}">▼</span></div><div class="card-body" id="body${i}">${s.body}</div>`;
+  d.onclick = () => {
+    open[i] = !open[i];
+    document.getElementById('body' + i).style.display = open[i] ? 'block' : 'none';
+    document.getElementById('arr' + i).textContent = open[i] ? '▲' : '▼';
+  };
+  sc.appendChild(d);
+});
+
+const awards = [
+  {label:"Driver of the race", driver:"Bournemaus Car #2", detail:"Pole to flag. Fast when it mattered, disciplined when others weren't. Perfect wet weather management."},
+  {label:"Team of the race", driver:"originalbob", detail:"One retirement, three points finishes. Smart pit call, smart race. First in the championship standings."},
+  {label:"Hard luck", driver:"AllSkillNoPants", detail:"Fastest in qualifying, four retirements across the team. The rain found every weakness."},
+];
+const aw = document.getElementById('awards');
+awards.forEach(a => {
+  const d = document.createElement('div');
+  d.className = 'award';
+  d.innerHTML = `<div class="award-label">${a.label}</div><div><div class="award-driver">${a.driver}</div><div class="award-detail">${a.detail}</div></div>`;
+  aw.appendChild(d);
+});
+</script>
+</body>
+</html>
