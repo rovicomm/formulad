@@ -326,6 +326,31 @@
     text-transform: uppercase;
   }
 
+  /* STATS TABLE */
+  .td-stat-label {
+    color: var(--muted);
+    font-size: 14px;
+    width: 44%;
+  }
+
+  .td-stat {
+    color: var(--text);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .td-stat.best { color: var(--accent); }
+
+  .stats-group {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    opacity: 0.5;
+    padding: 16px 12px 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
   @media (max-width: 600px) {
     .podium { grid-template-columns: 1fr; }
     .awards-grid { grid-template-columns: 1fr; }
@@ -623,6 +648,156 @@
       </tbody>
     </table>
     <p style="margin-top:14px; font-size:14px; color: var(--muted);">*Team totals reflect combined points across all classified finishers per entry.</p>
+  </div>
+
+  <!-- RACE STATISTICS -->
+  <div class="body-section">
+    <div class="section-label">Race Statistics</div>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th style="text-align:center">Kinetik</th>
+          <th style="text-align:center">Vanguard</th>
+          <th style="text-align:center">F. None</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="4" class="stats-group">Race Performance</td></tr>
+        <tr>
+          <td class="td-stat-label">Spaces Moved</td>
+          <td class="td-stat">921</td>
+          <td class="td-stat">843</td>
+          <td class="td-stat best">1,129</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Places Gained</td>
+          <td class="td-stat best">+9</td>
+          <td class="td-stat">−4</td>
+          <td class="td-stat">−5</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Rounds in Lead</td>
+          <td class="td-stat">0</td>
+          <td class="td-stat">17</td>
+          <td class="td-stat best">30</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Slipstreams</td>
+          <td class="td-stat">0</td>
+          <td class="td-stat">3</td>
+          <td class="td-stat best">4</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Nitro Bursts</td>
+          <td class="td-stat">5</td>
+          <td class="td-stat">4</td>
+          <td class="td-stat">6</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Pit Stops</td>
+          <td class="td-stat">1</td>
+          <td class="td-stat best">0</td>
+          <td class="td-stat">3</td>
+        </tr>
+
+        <tr><td colspan="4" class="stats-group">Damage &amp; Wear (WP Spent)</td></tr>
+        <tr>
+          <td class="td-stat-label">Tires (Overshoot)</td>
+          <td class="td-stat best">3</td>
+          <td class="td-stat">8</td>
+          <td class="td-stat">15</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Brakes</td>
+          <td class="td-stat">8</td>
+          <td class="td-stat best">4</td>
+          <td class="td-stat best">4</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Gearbox</td>
+          <td class="td-stat">9</td>
+          <td class="td-stat best">6</td>
+          <td class="td-stat">8</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Engine</td>
+          <td class="td-stat best">0</td>
+          <td class="td-stat">1</td>
+          <td class="td-stat">3</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Body (Collision)</td>
+          <td class="td-stat best">0</td>
+          <td class="td-stat">6</td>
+          <td class="td-stat">4</td>
+        </tr>
+
+        <tr><td colspan="4" class="stats-group">Qualifying</td></tr>
+        <tr>
+          <td class="td-stat-label">Total Rounds</td>
+          <td class="td-stat">88</td>
+          <td class="td-stat">80</td>
+          <td class="td-stat best">66</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Corner Overshoots</td>
+          <td class="td-stat">15</td>
+          <td class="td-stat best">2</td>
+          <td class="td-stat">15</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Total Time (sec)</td>
+          <td class="td-stat">515</td>
+          <td class="td-stat best">319</td>
+          <td class="td-stat">382</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">Combined Score</td>
+          <td class="td-stat">109</td>
+          <td class="td-stat best">85</td>
+          <td class="td-stat">86</td>
+        </tr>
+
+        <tr><td colspan="4" class="stats-group">Gear Distribution (Race Rounds)</td></tr>
+        <tr>
+          <td class="td-stat-label">1st Gear</td>
+          <td class="td-stat">3</td>
+          <td class="td-stat">3</td>
+          <td class="td-stat">4</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">2nd Gear</td>
+          <td class="td-stat">7</td>
+          <td class="td-stat">6</td>
+          <td class="td-stat">7</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">3rd Gear</td>
+          <td class="td-stat">27</td>
+          <td class="td-stat">19</td>
+          <td class="td-stat">29</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">4th Gear</td>
+          <td class="td-stat">39</td>
+          <td class="td-stat">37</td>
+          <td class="td-stat best">45</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">5th Gear</td>
+          <td class="td-stat">22</td>
+          <td class="td-stat">16</td>
+          <td class="td-stat">26</td>
+        </tr>
+        <tr>
+          <td class="td-stat-label">6th Gear</td>
+          <td class="td-stat">0</td>
+          <td class="td-stat">3</td>
+          <td class="td-stat">2</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- AWARDS -->
