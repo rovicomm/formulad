@@ -444,13 +444,13 @@
   }
 
   /* ─── SERIES SELECTOR ─── */
-  .series-select-wrap {
+  .league-select-wrap {
     padding: 1rem 2rem 1.2rem;
     border-bottom: 1px solid var(--border);
     margin-bottom: 0.5rem;
   }
 
-  .series-select-label {
+  .league-select-label {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 0.65rem;
     letter-spacing: 0.22em;
@@ -460,7 +460,7 @@
     margin-bottom: 0.5rem;
   }
 
-  .series-select {
+  .league-select {
     width: 100%;
     background: var(--surface2);
     color: var(--text);
@@ -477,13 +477,13 @@
     padding-right: 2rem;
   }
 
-  .series-select:focus {
+  .league-select:focus {
     outline: none;
     border-color: var(--accent);
   }
 
-  .series-champs { display: none; }
-  .series-champs.visible { display: block; }
+  .league-champs { display: none; }
+  .league-champs.visible { display: block; }
 
   .sidebar-empty {
     padding: 1.5rem 2rem;
@@ -641,9 +641,9 @@
       <button class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Close menu">✕</button>
     </div>
 
-    <div class="series-select-wrap">
-      <label class="series-select-label" for="series-select">Series</label>
-      <select id="series-select" class="series-select" onchange="showSeries(this.value)">
+    <div class="league-select-wrap">
+      <label class="league-select-label" for="league-select">League</label>
+      <select id="league-select" class="league-select" onchange="showLeague(this.value)">
         <option value="hard-champs">Hard Champs</option>
         <option value="unnamed">Unnamed</option>
       </select>
@@ -652,7 +652,7 @@
     <div class="sidebar-heading">Championships</div>
 
     <!-- Hard Champs series -->
-    <div id="series-hard-champs" class="series-champs visible">
+    <div id="league-hard-champs" class="league-champs visible">
       <button class="champ-btn" onclick="showChamp('2026-spring')">
         <span class="champ-name">2026 Spring Cup</span>
         <span class="champ-meta">Season 2 · 2026</span>
@@ -661,7 +661,7 @@
     </div>
 
     <!-- Unnamed series -->
-    <div id="series-unnamed" class="series-champs">
+    <div id="league-unnamed" class="league-champs">
       <p class="sidebar-empty">No championships yet.</p>
     </div>
 
@@ -754,7 +754,7 @@
       <div class="races-grid">
 
         <!-- ROUND 1 — March Cup -->
-        <a class="race-card" href="hard_champs_march_cup_race_report.html">
+        <a class="race-card" href="hard-champs/series-2/march-cup.html">
           <span class="badge-report">Report ↗</span>
           <div class="race-card-round">Round 1</div>
           <div class="race-card-name">March Cup</div>
@@ -767,7 +767,7 @@
         </a>
 
         <!-- ROUND 2 — April Cup -->
-        <a class="race-card" href="hard_champs_april_cup_race_report.html">
+        <a class="race-card" href="hard-champs/series-2/april-cup.html">
           <span class="badge-report">Report ↗</span>
           <div class="race-card-round">Round 2</div>
           <div class="race-card-name">April Cup</div>
@@ -812,12 +812,12 @@
     document.querySelector('.sidebar-overlay').classList.remove('open');
   }
 
-  function showSeries(seriesId) {
-    document.querySelectorAll('.series-champs').forEach(s => s.classList.remove('visible'));
-    document.getElementById('series-' + seriesId).classList.add('visible');
+  function showLeague(leagueId) {
+    document.querySelectorAll('.league-champs').forEach(s => s.classList.remove('visible'));
+    document.getElementById('league-' + leagueId).classList.add('visible');
     document.querySelectorAll('.champ-panel').forEach(p => p.classList.remove('visible'));
     document.querySelectorAll('.welcome-panel').forEach(w => w.classList.remove('visible'));
-    document.getElementById('welcome-' + seriesId).classList.add('visible');
+    document.getElementById('welcome-' + leagueId).classList.add('visible');
     document.querySelectorAll('.champ-btn').forEach(b => b.classList.remove('active'));
   }
 
